@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Carousel, Image } from "react-bootstrap";
 
 function Details() {
-  const [personaggio, setPersonaggio] = useState();
+  const [personaggio, setPersonaggio] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
@@ -19,19 +19,20 @@ function Details() {
     DBPersonggio();
   }, [id]);
 
+  if (!personaggio) {
+    return <div>Non trovato</div>;
+  }
   return (
     <>
       <h1>{personaggio.name}</h1>
       <Carousel>
-        {personaggio.transformations.map((transf, index) => (
-          <Carousel.Item key={index}>
-            <Image src={transf.image} style={{ maxWidth: "100px" }} />
-            <Carousel.Caption>
-              <h3>First slide label</h3>
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-        ))}
+        {personaggio.transformations &&
+          personaggio.transformations.map((transf, index) => (
+            <Carousel.Item key={index}>
+              <Image src={transf.image} style={{ maxWidth: "100px" }} />
+              <Carousel.Caption></Carousel.Caption>
+            </Carousel.Item>
+          ))}
       </Carousel>
     </>
   );
