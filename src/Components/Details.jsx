@@ -1,23 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Carousel, Image } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchChar } from "../Redux/Actions/detailsAction";
 
-function Details() {
-  const [personaggio, setPersonaggio] = useState(null);
+const Details = () => {
   const { id } = useParams();
-
+  const dispatch = useDispatch();
+  const { personaggio, loading, error } = useSelector((state) => state.personaggio);
   useEffect(() => {
-    async function DBPersonggio() {
-      try {
-        const response = await fetch("https://dragonball-api.com/api/characters/" + `${id}`);
-        const data = await response.json();
-        setPersonaggio(data);
-      } catch {
-        console.error("Il personaggio non è stato trovato");
-      }
-    }
-    DBPersonggio();
-  }, [id]);
+    dispatch(fetchChar(id));
+  }, [dispatch, id]);
 
   if (!personaggio) {
     return <div>Non trovato</div>;
@@ -36,6 +29,6 @@ function Details() {
       </Carousel>
     </>
   );
-}
+};
 
 export default Details;

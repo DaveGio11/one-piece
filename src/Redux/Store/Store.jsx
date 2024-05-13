@@ -1,6 +1,9 @@
 import charReducer from "../Reducers/DetailsReducer";
-// import {createStore}
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import { thunk } from "redux-thunk";
 
-// const rootReducer = combineReducers({personaggio: charReducer});
+const rootReducer = combineReducers({ personaggio: charReducer });
 
-// const store = createStore
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
+export default store;
